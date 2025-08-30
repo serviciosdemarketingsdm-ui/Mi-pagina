@@ -1,0 +1,162 @@
+yordysito-panel/
+│
+├─ index.html          (Login)
+├─ dashboard.html      (Panel admin)
+├─ assets/
+│   ├─ styles.css      (CSS general, responsive + login + dashboard)
+│   └─ app.js          (JS: login, sidebar, dashboard, gráficas, tabla, campaña)
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Yordysito Marketing</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="auth-page">
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <h1 class="brand">Yordysito<span>Marketing</span></h1>
+      <p class="muted">Accede a tu panel de administración</p>
+
+      <form id="loginForm" class="form">
+        <label>
+          Email
+          <input type="email" name="email" required placeholder="tu@ejemplo.com" />
+        </label>
+        <label>
+          Contraseña
+          <input type="password" name="password" required placeholder="••••••••" />
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="btn primary">Entrar</button>
+          <button type="button" class="btn ghost" id="demoBtn">Demo</button>
+        </div>
+        <p id="loginStatus" class="muted small" aria-live="polite"></p>
+      </form>
+
+      <small class="muted">¿Olvidaste tu contraseña? Contacta al administrador.</small>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      document.getElementById('loginStatus').textContent = 'Iniciando sesión...';
+      setTimeout(()=> location.href = 'dashboard.html', 700);
+    });
+    document.getElementById('demoBtn').addEventListener('click', ()=> location.href = 'dashboard.html');
+  </script>
+</body>
+</html>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — Yordysito Marketing</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="app">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="logo small">
+      <a href="#" class="brand">Yordysito<span>Marketing</span></a>
+    </div>
+    <nav class="menu">
+      <a class="active" href="#"><span class="icon">🏠</span> Dashboard</a>
+      <a href="#"><span class="icon">👥</span> Usuarios</a>
+      <a href="#"><span class="icon">💳</span> Pedidos</a>
+      <a href="#"><span class="icon">📦</span> Campañas</a>
+      <a href="#"><span class="icon">⚙️</span> Ajustes</a>
+    </nav>
+    <div class="sidebar-footer">
+      <small class="muted">Usuario: admin@correo.com</small>
+      <button id="logoutBtn" class="btn small ghost">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button id="sidebarToggle" class="btn small">☰</button>
+      <div class="topbar-right">
+        <input class="search" placeholder="Buscar..." />
+        <button class="btn small">Notificaciones ▾</button>
+      </div>
+    </header>
+
+    <section class="content container">
+      <div class="grid cards-4">
+        <div class="card">
+          <h3>Ingresos / mes</h3>
+          <p class="big">€ 4,320</p>
+          <small class="muted">+8% vs mes anterior</small>
+        </div>
+        <div class="card">
+          <h3>Nuevos usuarios</h3>
+          <p class="big">1,240</p>
+          <small class="muted">Registrados en 30 días</small>
+        </div>
+        <div class="card">
+          <h3>Campañas activas</h3>
+          <p class="big">12</p>
+          <small class="muted">Incluye pruebas A/B</small>
+        </div>
+        <div class="card">
+          <h3>Tasa conversión</h3>
+          <p class="big">3.8%</p>
+          <small class="muted">Media última semana</small>
+        </div>
+      </div>
+
+      <div class="grid dashboard-grid">
+        <div class="card">
+          <h3>Visitas y conversiones</h3>
+          <canvas id="trafficChart" height="180"></canvas>
+        </div>
+
+        <div class="card">
+          <h3>Distribución por canal</h3>
+          <canvas id="channelsChart" height="180"></canvas>
+        </div>
+
+        <div class="card full">
+          <h3>Últimos pedidos</h3>
+          <table class="table" id="ordersTable">
+            <thead>
+              <tr><th>ID</th><th>Cliente</th><th>Servicio</th><th>Estado</th><th>Precio</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3>Crear campaña rápida</h3>
+          <form id="campaignForm" class="form">
+            <label>Nombre
+              <input name="name" required placeholder="Nombre de campaña" />
+            </label>
+            <label>Presupuesto (€)
+              <input type="number" name="budget" required value="100" />
+            </label>
+            <div class="actions">
+              <button class="btn primary" type="submit">Crear</button>
+              <button type="reset" class="btn ghost">Limpiar</button>
+            </div>
+            <p id="campStatus" class="muted small"></p>
+          </form>
+        </div>
+      </div>
+
+    </section>
+
+    <footer class="site-footer">
+      © <span id="year"></span> Yordysito Marketing — Panel demo
+    </footer>
+  </div>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
